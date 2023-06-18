@@ -1,4 +1,4 @@
-package com.shahzaman.weather.ui.theme
+package com.shahzaman.weather.weatherFeature.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

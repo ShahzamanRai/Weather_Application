@@ -1,4 +1,4 @@
-package com.shahzaman.weather.weatherFeature.ui
+package com.shahzaman.weather.weatherFeature.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.shahzaman.weather.ui.theme.Black
+import com.shahzaman.weather.weatherFeature.presentation.ui.theme.Black
 
 @Composable
 fun TwoLines() {

@@ -1,4 +1,4 @@
-package com.shahzaman.weather.ui.theme
+package com.shahzaman.weather.weatherFeature.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Blue,
+    primary = Yellow,
     surface = Yellow,
     onSurface = Black,
     background = Yellow,
@@ -38,7 +38,7 @@ fun WeatherTheme(
     }
 
     MaterialTheme(
-        colorScheme = darkColorScheme(),
+        colorScheme = DarkColorScheme,
         typography = Typography,
         content = content
     )

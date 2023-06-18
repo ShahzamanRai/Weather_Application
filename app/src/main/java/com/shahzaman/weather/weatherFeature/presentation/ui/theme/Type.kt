@@ -1,6 +1,7 @@
-package com.shahzaman.weather.ui.theme
+package com.shahzaman.weather.weatherFeature.presentation.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -10,11 +11,13 @@ import androidx.compose.ui.unit.sp
 import com.shahzaman.weather.R
 
 
-val Ledger = FontFamily(
-        Font(R.font.ledger)
-)
 val SFCompact = FontFamily(
-        Font(R.font.sf_compact)
+    Font(R.font.sf_compact_original),
+    Font(R.font.sf_compact_bold, weight = FontWeight.Bold),
+    Font(R.font.sf_compact_bold, weight = FontWeight.ExtraBold)
+)
+val SFCompactModified = FontFamily(
+    Font(R.font.sf_compact)
 )
 
 
@@ -22,22 +25,33 @@ val SFCompact = FontFamily(
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = SFCompact,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
+        fontWeight = FontWeight.Bold,
+        color = Black,
+        fontSize = 28.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
     bodySmall = TextStyle(
         fontFamily = SFCompact,
-        fontWeight = FontWeight.Light,
-        fontSize = 10.sp,
-        lineHeight = 24.sp,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        color = Black,
+        lineHeight = 16.sp,
         letterSpacing = 0.5.sp
     ),
     titleLarge = TextStyle(
-        fontFamily = SFCompact,
+        fontFamily = SFCompactModified,
         fontWeight = FontWeight.Normal,
         fontSize = 180.sp,
+        color = Black,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = SFCompact,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        color = Black,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
