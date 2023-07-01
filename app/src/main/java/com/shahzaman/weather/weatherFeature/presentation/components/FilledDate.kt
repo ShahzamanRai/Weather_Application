@@ -7,32 +7,32 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DoubleState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.shahzaman.weather.weatherFeature.presentation.WeatherState
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 @Composable
 fun FilledDate(
-    text: String
+    state: WeatherState
 ) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.onBackground,
-        ),
-        shape = RoundedCornerShape(36.dp)
+    state.weatherInfo?.currentWeatherData?.let { data ->
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.onBackground,
+            ),
+            shape = RoundedCornerShape(36.dp)
 
-    ) {
-        Text(
-            text = text,
-            color = MaterialTheme.colorScheme.background,
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(horizontal = 12.dp)
-        )
+        ) {
+            Text(
+                text = data.time.format(DateTimeFormatter.ISO_DATE),
+                color = MaterialTheme.colorScheme.background,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+        }
     }
-}
-
-@Preview
-@Composable
-private fun Preview() {
-    FilledDate(text = "Friday, 20 Jan")
 }

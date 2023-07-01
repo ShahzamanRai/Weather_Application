@@ -1,104 +1,82 @@
 package com.shahzaman.weather.weatherFeature.presentation
 
+import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import com.shahzaman.weather.weatherFeature.presentation.ui.theme.WeatherTheme
 import com.shahzaman.weather.weatherFeature.presentation.screeens.MainScreen
+import com.shahzaman.weather.weatherFeature.presentation.ui.theme.Black
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: WeatherViewModel by viewModels()
+    private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        permissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) {
+            viewModel.loadWeatherInfo()
+        }
+        permissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+            )
+        )
         setContent {
-
             WeatherTheme {
-                /*
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Blue),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(painter = imagePainter, contentDescription ="", modifier = Modifier.size(56.dp))
-                    Spacer(modifier = Modifier.height(25.dp))
-                    Image(painter = image2Painter, contentDescription ="", modifier = Modifier.size(56.dp))
-                    Spacer(modifier = Modifier.height(25.dp))
-                    Image(painter = image3Painter, contentDescription ="", modifier = Modifier.size(36.dp))
-                    Spacer(modifier = Modifier.height(25.dp))
-                    TwoLines()
-                    Text(
-                        text = "31°",
-                        color = Black,
-                        style = MaterialTheme.typography.titleLarge
-                    )
 
-
-                }
-
-
-
-//Bottom Cards to show 14 Days weather.
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Blue)
-                        .padding(bottom = 40.dp),
-                    verticalAlignment = Alignment.Bottom,
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    DailyCard(
-                        date = "11 Aug",
-                        temperature = "27°",
-                        icon = painterResource(id = R.drawable.humidity)
-                    )
-                    DailyCard(
-                        date = "12 Aug",
-                        temperature = "28°",
-                        icon = painterResource(id = R.drawable.humidity)
-                    )
-                    DailyCard(
-                        date = "13 Aug",
-                        temperature = "24°",
-                        icon = painterResource(id = R.drawable.humidity)
-                    )
-                    DailyCard(
-                        date = "14 Aug",
-                        temperature = "26°",
-                        icon = painterResource(id = R.drawable.humidity)
-                    )
-                }
-
-                Column(
+                Surface(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.background),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    FilledDate(text = "Friday, 20 January")
-                    Spacer(modifier = Modifier.height(26.dp))
-                    Image(
-                        painter = arrow,
-                        contentDescription = "",
-                        modifier = Modifier.size(56.dp)
-                    )
-                    Spacer(modifier = Modifier.height(26.dp))
-                    InfoCard(windValue = "2Km/h", humidityValue = "62%", visibilityValue = "1Km")
-                }
 
-                */
-                Surface(
-                    modifier = Modifier.fillMaxSize()
-                        .background(MaterialTheme.colorScheme.background)
-                ) {
-                    MainScreen(cityName = "Okara", weatherCondition = "Rain", temperature = "31°")
+                    ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+
+
+                        MainScreen(
+                            cityName = "Okara",
+                            state = viewModel.state
+                        )
+
+                        if (viewModel.state.isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
+                        }
+                        viewModel.state.error?.let { error ->
+                            Text(
+                                text = error,
+                                color = Black,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
+                        }
+
+                    }
                 }
             }
         }

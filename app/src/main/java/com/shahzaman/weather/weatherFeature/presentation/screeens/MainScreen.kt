@@ -19,10 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shahzaman.weather.R
+import com.shahzaman.weather.weatherFeature.presentation.WeatherState
 import com.shahzaman.weather.weatherFeature.presentation.components.DailyCard
 import com.shahzaman.weather.weatherFeature.presentation.components.FilledDate
 import com.shahzaman.weather.weatherFeature.presentation.components.InfoCard
@@ -31,71 +31,69 @@ import com.shahzaman.weather.weatherFeature.presentation.components.TwoLines
 @Composable
 fun MainScreen(
     cityName: String,
-    weatherCondition: String,
-    temperature: String
-
+    state: WeatherState
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Header(cityName = cityName)
-        Spacer(modifier = Modifier.height(32.dp))
-        FilledDate(text = "Friday, 16 June")
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = weatherCondition,
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        Text(
-            text = temperature,
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        DailySummary()
-        Spacer(modifier = Modifier.height(16.dp))
-        InfoCard(windValue = "4Km/h", humidityValue = "48%", visibilityValue = "1Km")
-        Footer()
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
+    state.weatherInfo?.currentWeatherData?.let { data ->
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            DailyCard(
-                date = "11 Aug",
-                temperature = "27°",
-                icon = painterResource(id = R.drawable.humidity_filled)
+            Header(cityName = cityName)
+            Spacer(modifier = Modifier.height(32.dp))
+            FilledDate(
+                state = state
             )
-            DailyCard(
-                date = "12 Aug",
-                temperature = "28°",
-                icon = painterResource(id = R.drawable.humidity_filled)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = data.weatherType.weatherDesc,
+                style = MaterialTheme.typography.bodyMedium,
             )
-            DailyCard(
-                date = "13 Aug",
-                temperature = "24°",
-                icon = painterResource(id = R.drawable.humidity_filled)
+            Text(
+                text = "${data.temperatureCelsius}°",
+                style = MaterialTheme.typography.titleLarge
             )
-            DailyCard(
-                date = "14 Aug",
-                temperature = "26°",
-                icon = painterResource(id = R.drawable.humidity_filled)
+
+            DailySummary(
+                temperature = data.temperatureCelsius
             )
+            Spacer(modifier = Modifier.height(16.dp))
+            InfoCard(
+                windValue = "${data.windSpeed}Km/h",
+                humidityValue = "${data.humidity}%",
+                visibilityValue = "${data.pressure}Km"
+            )
+            Footer()
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                DailyCard(
+                    date = "11 Aug",
+                    temperature = "27°",
+                    icon = painterResource(id = R.drawable.humidity_filled)
+                )
+                DailyCard(
+                    date = "12 Aug",
+                    temperature = "28°",
+                    icon = painterResource(id = R.drawable.humidity_filled)
+                )
+                DailyCard(
+                    date = "13 Aug",
+                    temperature = "24°",
+                    icon = painterResource(id = R.drawable.humidity_filled)
+                )
+                DailyCard(
+                    date = "14 Aug",
+                    temperature = "26°",
+                    icon = painterResource(id = R.drawable.humidity_filled)
+                )
+            }
+
         }
-
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    MainScreen(
-        cityName = "Okara",
-        weatherCondition = "Rain",
-        temperature = "31°"
-    )
 }
 
 
@@ -124,7 +122,9 @@ fun Header(
 }
 
 @Composable
-fun DailySummary() {
+fun DailySummary(
+    temperature: Double
+) {
     Column {
 
         Text(
@@ -138,7 +138,7 @@ fun DailySummary() {
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Now it feels like +35\", actually +31\".\n" +
+            text = "Now it feels like $temperature\", actually +$temperature\".\n" +
                     "It feels hot because of the direct sun. Today,\nthe temperature is felt in the range from +31 to 27.",
             style = MaterialTheme.typography.bodySmall,
             textAlign = TextAlign.Start,
