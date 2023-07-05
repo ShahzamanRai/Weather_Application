@@ -28,10 +28,10 @@ fun FilledDate(
 
         ) {
             Text(
-                text = data.time.format(DateTimeFormatter.ISO_DATE),
+                text = data.time.format(DateTimeFormatter.ofPattern("EEEE, d MMMM")),
                 color = MaterialTheme.colorScheme.background,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(horizontal = 12.dp)
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
             )
         }
     }

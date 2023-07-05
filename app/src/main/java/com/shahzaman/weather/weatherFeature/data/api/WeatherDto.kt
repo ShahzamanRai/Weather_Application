@@ -6,7 +6,6 @@ data class WeatherDto(
     @field:Json(name = "hourly")
     val weatherHourlyData: HourlyDataDto,
 
-    @field:Json(name = "daily")
-    val weatherDailyData: DailyDataDto,
-
-    )
+    val latitude: Double,
+    val longitude: Double,
+)

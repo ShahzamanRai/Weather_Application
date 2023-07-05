@@ -1,20 +1,18 @@
-package com.shahzaman.weather.weatherFeature.domain.location
+package com.shahzaman.weather.weatherFeature.data.location
 
 import android.Manifest
 import android.app.Application
-import android.app.LocaleManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.shahzaman.weather.weatherFeature.domain.location.LocationTracker
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
-@ExperimentalCoroutinesApi
 class DefaultLocationTracker @Inject constructor(
     private val locationClient: FusedLocationProviderClient,
     private val application: Application

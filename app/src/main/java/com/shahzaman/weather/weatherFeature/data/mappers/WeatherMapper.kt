@@ -1,6 +1,5 @@
 package com.shahzaman.weather.weatherFeature.data.mappers
 
-import android.os.Build
 import com.shahzaman.weather.weatherFeature.data.api.HourlyDataDto
 import com.shahzaman.weather.weatherFeature.data.api.WeatherDto
 import com.shahzaman.weather.weatherFeature.domain.weather.WeatherData
@@ -45,7 +44,13 @@ fun WeatherDto.toWeatherInfo(): WeatherInfo {
         val hour = if (now.minute < 30) now.hour else if (now.hour == 23) 12.00 else now.hour + 1
         it.time.hour == hour
     }
+    val latitude = latitude
+    val longitude = longitude
+
     return WeatherInfo(
-        weatherDataPerDay = weatherDataMap, currentWeatherData = currentWeatherData
+        weatherDataPerDay = weatherDataMap,
+        currentWeatherData = currentWeatherData,
+        latitude,
+        longitude
     )
 }

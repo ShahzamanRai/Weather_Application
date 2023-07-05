@@ -1,5 +1,6 @@
 package com.shahzaman.weather.weatherFeature.presentation.screeens
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,11 +25,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shahzaman.weather.R
+import com.shahzaman.weather.weatherFeature.domain.weather.WeatherType
 import com.shahzaman.weather.weatherFeature.presentation.WeatherState
 import com.shahzaman.weather.weatherFeature.presentation.components.DailyCard
 import com.shahzaman.weather.weatherFeature.presentation.components.FilledDate
 import com.shahzaman.weather.weatherFeature.presentation.components.InfoCard
 import com.shahzaman.weather.weatherFeature.presentation.components.TwoLines
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun MainScreen(
@@ -49,49 +54,24 @@ fun MainScreen(
                 style = MaterialTheme.typography.bodyMedium,
             )
             Text(
-                text = "${data.temperatureCelsius}°",
+                text = "${data.temperatureCelsius.toInt()}°",
                 style = MaterialTheme.typography.titleLarge
             )
 
             DailySummary(
-                temperature = data.temperatureCelsius
+                temperature = data.temperatureCelsius,
+                weatherType = data.weatherType
             )
             Spacer(modifier = Modifier.height(16.dp))
             InfoCard(
                 windValue = "${data.windSpeed}Km/h",
-                humidityValue = "${data.humidity}%",
-                visibilityValue = "${data.pressure}Km"
+                humidityValue = "${data.humidity.toInt()}%",
+                visibilityValue = "${data.pressure.toInt()}Km"
             )
             Footer()
             Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                DailyCard(
-                    date = "11 Aug",
-                    temperature = "27°",
-                    icon = painterResource(id = R.drawable.humidity_filled)
-                )
-                DailyCard(
-                    date = "12 Aug",
-                    temperature = "28°",
-                    icon = painterResource(id = R.drawable.humidity_filled)
-                )
-                DailyCard(
-                    date = "13 Aug",
-                    temperature = "24°",
-                    icon = painterResource(id = R.drawable.humidity_filled)
-                )
-                DailyCard(
-                    date = "14 Aug",
-                    temperature = "26°",
-                    icon = painterResource(id = R.drawable.humidity_filled)
-                )
-            }
 
+            LazyRow(state = state)
         }
     }
 }
@@ -123,7 +103,8 @@ fun Header(
 
 @Composable
 fun DailySummary(
-    temperature: Double
+    temperature: Double,
+    weatherType: WeatherType
 ) {
     Column {
 
@@ -138,8 +119,8 @@ fun DailySummary(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Now it feels like $temperature\", actually +$temperature\".\n" +
-                    "It feels hot because of the direct sun. Today,\nthe temperature is felt in the range from +31 to 27.",
+            text = "Now it feels like ${temperature.toInt()}\", actually +$temperature\".\n" +
+                    "It seems like ${weatherType.weatherDesc}. Today,\nthe temperature is felt in the range from +31 to 27.",
             style = MaterialTheme.typography.bodySmall,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Bold,
@@ -149,7 +130,6 @@ fun DailySummary(
         )
     }
 }
-
 
 @Composable
 fun Footer(
@@ -175,5 +155,29 @@ fun Footer(
             modifier = Modifier
                 .size(36.dp),
         )
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun LazyRow(
+    state: WeatherState
+) {
+    state.weatherInfo?.weatherDataPerDay?.get(0)?.let { data ->
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            content = {
+                items(data) { weatherData ->
+                    DailyCard(
+                        date = weatherData.time.format(DateTimeFormatter.ofPattern("HH:mm")),
+                        temperature = "${weatherData.temperatureCelsius.toInt().toString()}°",
+                        icon = painterResource(id = R.drawable.humidity_filled),
+                        modifier = Modifier
+                    )
+                }
+            })
     }
 }

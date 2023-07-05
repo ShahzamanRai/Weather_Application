@@ -44,9 +44,10 @@ fun CardComponent(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.background
                 )
+                Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = featureName,
-                    fontSize = MaterialTheme.typography.labelMedium.fontSize,
+                    fontSize = MaterialTheme.typography.labelLarge.fontSize,
                     fontWeight = FontWeight.Normal,
                     color = MaterialTheme.colorScheme.background
                 )

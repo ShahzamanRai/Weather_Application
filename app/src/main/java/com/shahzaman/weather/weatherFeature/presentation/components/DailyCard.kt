@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,16 +28,18 @@ import com.shahzaman.weather.weatherFeature.presentation.ui.theme.Black
 fun DailyCard(
     temperature: String,
     date: String,
-    icon: Painter
+    icon: Painter,
+    modifier: Modifier
 
 ) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         border = BorderStroke(2.dp, Black),
-        color = Color.Transparent
+        color = Color.Transparent,
     ) {
         Box(
-            modifier = Modifier.padding(10.dp),
+            modifier = modifier
+                .padding(10.dp),
             contentAlignment = Alignment.Center
         ) {
 
@@ -64,14 +67,4 @@ fun DailyCard(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    DailyCard(
-        date = "11 Aug",
-        temperature = "27°",
-        icon = painterResource(id = R.drawable.humidity)
-    )
 }
