@@ -1,26 +1,34 @@
 package com.shahzaman.weather.weatherFeature.presentation.ui.theme
 
 import android.app.Activity
-import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.shahzaman.weather.weatherFeature.presentation.MainActivity
 
-private val DarkColorScheme = darkColorScheme(
+val BlueColorScheme = darkColorScheme(
     primary = Blue,
-    surface = Blue,
-    onSurface = Black,
+    surface = Black,
+    onSurface = White,
     background = Blue,
+    onBackground = Black
+)
+val PinkColorScheme = darkColorScheme(
+    primary = Pink,
+    surface = Black,
+    onSurface = White,
+    background = Pink,
+    onBackground = Black
+)
+val YellowColorScheme = darkColorScheme(
+    primary = Yellow,
+    surface = Black,
+    onSurface = White,
+    background = Yellow,
     onBackground = Black
 )
 
@@ -32,13 +40,13 @@ fun WeatherTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = DarkColorScheme.primary.toArgb()
+            window.statusBarColor = MainActivity.selectedColorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = true
         }
     }
 
     MaterialTheme(
-        colorScheme = DarkColorScheme,
+        colorScheme = MainActivity.selectedColorScheme,
         typography = Typography,
         content = content
     )

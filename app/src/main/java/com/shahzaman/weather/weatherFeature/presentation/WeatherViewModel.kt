@@ -1,6 +1,5 @@
 package com.shahzaman.weather.weatherFeature.presentation
 
-
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -15,12 +14,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val repository: WeatherRepository,
-    private val locationTracker: LocationTracker
-) : ViewModel() {
+    private val locationTracker: LocationTracker,
+
+    ) : ViewModel() {
+
     var state by mutableStateOf(WeatherState())
         private set
 
@@ -56,7 +56,7 @@ class WeatherViewModel @Inject constructor(
             } ?: kotlin.run {
                 state = state.copy(
                     isLoading = false,
-                    error = "Couldn't retrieve Data. Make sure to grant permission and enable GPS and also check your internet connection."
+                    error = "Couldn't retrieve Data. Make sure to grant permission and enable GPS."
                 )
             }
         }

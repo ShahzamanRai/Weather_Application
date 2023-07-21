@@ -36,15 +36,19 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun MainScreen(
     cityName: String,
-    state: WeatherState
+    state: WeatherState,
+    onClick: () -> Unit
 ) {
     state.weatherInfo?.currentWeatherData?.let { data ->
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Header(cityName = cityName)
-            Spacer(modifier = Modifier.height(32.dp))
+            Header(
+                cityName = cityName,
+                onClick = onClick
+            )
+            Spacer(modifier = Modifier.height(26.dp))
             FilledDate(
                 state = state
             )
@@ -79,7 +83,8 @@ fun MainScreen(
 
 @Composable
 fun Header(
-    cityName: String
+    cityName: String,
+    onClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -88,7 +93,9 @@ fun Header(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        TwoLines()
+        TwoLines(
+            onclick = onClick
+        )
         Text(
             text = cityName,
             textAlign = TextAlign.Center,
@@ -142,7 +149,7 @@ fun Footer(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Weekly forecast",
+            text = "Hourly forecast",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Start,
@@ -174,7 +181,7 @@ fun LazyRow(
                     DailyCard(
                         date = weatherData.time.format(DateTimeFormatter.ofPattern("HH:mm")),
                         temperature = "${weatherData.temperatureCelsius.toInt().toString()}°",
-                        icon = painterResource(id = R.drawable.humidity_filled),
+                        icon = painterResource(id = weatherData.weatherType.iconRes),
                         modifier = Modifier
                     )
                 }

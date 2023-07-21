@@ -1,11 +1,9 @@
 package com.shahzaman.weather.weatherFeature.presentation.ui.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.shahzaman.weather.R
@@ -28,6 +26,13 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold,
         color = Black,
         fontSize = 28.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    ),
+    displaySmall = TextStyle(
+        fontFamily = SFCompact,
+        fontWeight = FontWeight.W400,
+        fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
