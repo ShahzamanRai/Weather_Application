@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.SplashScreen.Starting" parent="Theme.SplashScreen">
+
+        <item name="windowSplashScreenBackground">
+            #1C1C1C
+        </item>
+        <item name="windowSplashScreenAnimatedIcon">
+            @drawable/humidity_filled_splash
+        </item>
+        <item name="postSplashScreenTheme">
+            @style/Theme.Weather
+        </item>
+    </style>
+</resources>

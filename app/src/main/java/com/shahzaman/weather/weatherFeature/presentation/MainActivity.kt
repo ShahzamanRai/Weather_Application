@@ -2,10 +2,8 @@ package com.shahzaman.weather.weatherFeature.presentation
 
 
 import android.Manifest
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
@@ -42,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -68,6 +67,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //Selecting ColorScheme
         val color = getPrimaryColorFromTheme(applicationContext)
         selectedColorScheme = when (color) {
             "Blue" -> BlueColorScheme
@@ -75,13 +75,22 @@ class MainActivity : ComponentActivity() {
             "Yellow" -> YellowColorScheme
             else -> BlueColorScheme // Default color in case of any issues
         }
-        Log.d(TAG, "onCreate: $color")
 
+        //Checking for permission and loading the ViewModel
         permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
             viewModel.loadWeatherInfo()
         }
+
+        //Install Splash Screen until ViewModel is loading
+        installSplashScreen().apply {
+            this.setKeepOnScreenCondition {
+                viewModel.isLoading.value
+            }
+        }
+
+        //Requesting permissions
         permissionLauncher.launch(
             arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
