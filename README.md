@@ -19,7 +19,7 @@ Weather not only delivers accurate weather forecasts but also hones your skills:
 * Solidify your understanding of modern architectural patterns and efficient dependency injection.
 
 ## Screenshots
-![Main Screen](https://github.com/YourUsername/Weather/blob/master/screenshots/MainScreen.png)
+![Main Screen](https://github.com/ShahzamanRai/Weather_Application/blob/master/screenshots/HomeScreen.png)
 
 ## Connect and Collaborate
 Let's connect and explore together! Reach out to me through these channels:
